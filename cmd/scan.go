@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"dockshield/internal/dockerutil"
 	"dockshield/core/scanner"
 	"fmt"
 	"github.com/spf13/cobra"
