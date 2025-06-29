@@ -1,8 +1,9 @@
 package config
 
 import (
-	"github.com/spf13/viper"
 	"log"
+
+	"github.com/spf13/viper"
 )
 
 type AppConfig struct {
@@ -14,22 +15,20 @@ type AppConfig struct {
 var Cfg AppConfig
 
 func LoadConfig() {
-	viper.SetConfigName("dockshield")
+	viper.SetConfigName("dockshield") // loads dockshield.yaml
 	viper.SetConfigType("yaml")
-	viper.AddConfigPath(".")
+	viper.AddConfigPath(".") // look in current directory
 
-	// Defaults
+	// Set defaults
 	viper.SetDefault("min_severity", "HIGH")
 	viper.SetDefault("output_style", "table")
 	viper.SetDefault("save_report", false)
 
-	err := viper.ReadInConfig()
-	if err != nil {
-		log.Println("⚠️ No config file found. Using default settings.")
+	if err := viper.ReadInConfig(); err != nil {
+		log.Println("⚠️ Config not found. Using defaults.")
 	}
 
-	err = viper.Unmarshal(&Cfg)
-	if err != nil {
-		log.Fatalf("Config parse error: %v", err)
+	if err := viper.Unmarshal(&Cfg); err != nil {
+		log.Fatalf("❌ Config parse error: %v", err)
 	}
 }
