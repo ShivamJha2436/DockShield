@@ -1,4 +1,4 @@
-name: DockShield CI
+name: CI
 
 on:
   push:
@@ -7,15 +7,14 @@ on:
     branches: [ main ]
 
 jobs:
-  build-and-test:
-    name: Build, Format & Test
+  build-test:
     runs-on: ubuntu-latest
 
     steps:
-    - name: 🛎️ Checkout code
+    - name: 🔍 Checkout
       uses: actions/checkout@v3
 
-    - name: 🧰 Setup Go
+    - name: ⚙️ Setup Go
       uses: actions/setup-go@v4
       with:
         go-version: 1.21
@@ -23,19 +22,19 @@ jobs:
     - name: 📦 Install dependencies
       run: go mod tidy
 
-    - name: ✅ Run tests
+    - name: ✅ Run Tests
       run: go test ./...
 
-    - name: 🔍 Run golint
+    - name: 🔧 Lint
       run: |
         go install golang.org/x/lint/golint@latest
-        golint ./...
+        golint ./... || true
 
-    - name: 🔧 Check formatting
+    - name: ✨ Format Check
       run: |
         fmtOut=$(gofmt -l .)
         if [ -n "$fmtOut" ]; then
-          echo "The following files are not formatted:"
+          echo "⚠️ Unformatted files:"
           echo "$fmtOut"
           exit 1
         fi

@@ -1,4 +1,4 @@
-module github.com/ShivamJha2436/DockShield
+module dockShield
 
 go 1.23.4
 
