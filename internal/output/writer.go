@@ -4,6 +4,7 @@ import (
 	"os"
 )
 
-func WriteToFile(data []byte, filename string) error {
-	return os.WriteFile(filename, data, 0644)
+// WriteToFile saves scan report to a file
+func WriteToFile(data []byte, path string) error {
+	return os.WriteFile(path, data, 0644)
 }
