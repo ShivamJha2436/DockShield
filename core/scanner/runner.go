@@ -4,6 +4,8 @@ import (
 	"dockshield/api/trivy"
 )
 
-func RunScan(image string) ([]byte, error) {
+// RunScan simply executes the Trivy scan logic from api layer
+func RunScan(image string) (*trivy.TrivyReport, error) {
 	return trivy.ScanImage(image)
 }
+
