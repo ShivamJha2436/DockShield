@@ -1,17 +1,47 @@
 package trivy
 
 import (
-	"dockshield/core/scanner"
-	"dockshield/core/scanner/parser"
+	"bytes"
+	"encoding/json"
+	"errors"
 	"os/exec"
 )
 
-func ScanImage(image string) (*scanner.TrivyReport, error) {
+type Vulnerability struct {
+	VulnerabilityID string `json:"VulnerabilityID"`
+	Title           string `json:"Title"`
+	Severity        string `json:"Severity"`
+	PkgName         string `json:"PkgName"`
+}
+
+type Result struct {
+	Target          string          `json:"Target"`
+	Vulnerabilities []Vulnerability `json:"Vulnerabilities"`
+}
+
+type TrivyReport struct {
+	Results []Result `json:"Results"`
+}
+
+// ScanImage runs the Trivy CLI tool and parses the output into TrivyReport
+func ScanImage(image string) (*TrivyReport, error) {
 	cmd := exec.Command("trivy", "image", "--format", "json", image)
-	out, err := cmd.Output()
+	var out bytes.Buffer
+	var stderr bytes.Buffer
+
+	cmd.Stdout = &out
+	cmd.Stderr = &stderr
+
+	err := cmd.Run()
+	if err != nil {
+		return nil, errors.New(stderr.String())
+	}
+
+	var report TrivyReport
+	err = json.Unmarshal(out.Bytes(), &report)
 	if err != nil {
 		return nil, err
 	}
 
-	return parser.ParseReport(out)
+	return &report, nil
 }
