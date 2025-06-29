@@ -1,6 +1,6 @@
 package main
 
-import "dockshield\cmd"
+import "dockshield/cmd"
 
 func main(){
 	cmd.Execute()
