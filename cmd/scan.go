@@ -1,10 +1,11 @@
 package cmd
 
 import (
-	"dockshield/api/trivy"
-	"dockshield/core/scanner"
-	"dockshield/internal/output"
+	"dockShield/api/trivy"
+	"dockShield/core/scanner"
+	"dockShield/internal/output"
 	"fmt"
+
 	"github.com/spf13/cobra"
 )
 

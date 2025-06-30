@@ -1,8 +1,6 @@
 package scanner
 
-import (
-	"dockshield/api/trivy"
-)
+import "dockShield/api/trivy"
 
 // RunScan simply executes the Trivy scan logic from api layer
 func RunScan(image string) (*trivy.TrivyReport, error) {
