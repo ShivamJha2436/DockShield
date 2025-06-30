@@ -1,7 +1,7 @@
 package scanner
 
 import (
-	"dockshield/api/trivy"
+	"dockShield/api/trivy"
 	"encoding/json"
 	"fmt"
 )

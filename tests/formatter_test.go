@@ -1,8 +1,8 @@
 package tests
 
 import (
-	"dockshield/api/trivy"
-	"dockshield/core/scanner"
+	"dockShield/api/trivy"
+	"dockShield/core/scanner"
 	"testing"
 )
 
