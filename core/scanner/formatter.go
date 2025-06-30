@@ -4,24 +4,45 @@ import (
 	"dockShield/api/trivy"
 	"encoding/json"
 	"fmt"
+	"os"
+
+	"github.com/olekukonko/tablewriter"
 )
 
-// PrintReport displays only HIGH or CRITICAL vulnerabilities in CLI
 func PrintReport(report *trivy.TrivyReport) {
 	fmt.Println("📦 Image Scan Report")
 
 	for _, result := range report.Results {
-		fmt.Printf("\n🔍 Target: %s\n", result.Target)
+		fmt.Printf("\n🔍 Target: %s\n\n", result.Target)
+
+		// Create data slice
+		var rows [][]string
 		for _, vuln := range result.Vulnerabilities {
 			if vuln.Severity == "HIGH" || vuln.Severity == "CRITICAL" {
-				fmt.Printf("  [%s] %s - %s (%s)\n",
-					vuln.Severity, vuln.VulnerabilityID, vuln.Title, vuln.PkgName)
+				rows = append(rows, []string{
+					vuln.Severity,
+					vuln.VulnerabilityID,
+					vuln.PkgName,
+					truncate(vuln.Title, 60),
+				})
 			}
 		}
+
+		// Render the table
+		table := tablewriter.NewWriter(os.Stdout)
+		table.Header([]string{"Severity", "CVE ID", "Package", "Title"})
+		table.Bulk(rows)
+		table.Render()
 	}
 }
 
-// FormatJSON returns the report in pretty JSON (for saving to file)
+func truncate(s string, max int) string {
+	if len(s) > max {
+		return s[:max-3] + "..."
+	}
+	return s
+}
+
 func FormatJSON(report *trivy.TrivyReport) ([]byte, error) {
 	return json.MarshalIndent(report, "", "  ")
 }

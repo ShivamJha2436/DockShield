@@ -15,7 +15,8 @@ const banner = `
  ░ ░  ░ ░ ░ ░ ▒  ░        ░ ░░ ░ ░  ░  ░   ░  ░░ ░ ▒ ░   ░     ░ ░    ░ ░  ░ 
    ░        ░ ░  ░ ░      ░  ░         ░   ░  ░  ░ ░     ░  ░    ░  ░   ░    
  ░               ░                                                    ░      
- 🛡️ DockShield - Secure Your Docker Images with DockShield
+
+ 🛡️  DockShield - Secure Your Docker Images with DockShield
 `
 var rootCmd = &cobra.Command{
 	Use:   "dockshield",
