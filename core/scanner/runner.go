@@ -1,7 +1,7 @@
 package scanner
 
 import (
-	"dockshield/api/trivy"
+	"dockShield/api/trivy"
 )
 
 // RunScan simply executes the Trivy scan logic from api layer
